@@ -1,0 +1,203 @@
+[
+    {
+      "id": "1",
+      "name": "Bayam",
+      "category": "Daun",
+      "price": 8000,
+      "quantity": 100,
+      "image": "/assets/images/bayam.jpg",
+      "description": "Bayam segar langsung dari kebun, kaya akan nutrisi.",
+      "farmerId": "F1"
+    },
+    {
+      "id": "2",
+      "name": "Kangkung",
+      "category": "Daun",
+      "price": 7000,
+      "quantity": 120,
+      "image": "/assets/images/kangkung.jpg",
+      "description": "Kangkung segar, cocok untuk tumisan dan lalapan.",
+      "farmerId": "F2"
+    },
+    {
+      "id": "3",
+      "name": "Sawi Hijau",
+      "category": "Daun",
+      "price": 9000,
+      "quantity": 90,
+      "image": "/assets/images/sawi-hijau.jpg",
+      "description": "Sawi hijau yang kaya akan vitamin untuk keluarga sehat.",
+      "farmerId": "F3"
+    },
+    {
+      "id": "4",
+      "name": "Wortel",
+      "category": "Umbi",
+      "price": 12000,
+      "quantity": 70,
+      "image": "/assets/images/wortel.jpg",
+      "description": "Wortel manis dan renyah, cocok untuk sup atau jus.",
+      "farmerId": "F1"
+    },
+    {
+      "id": "5",
+      "name": "Kentang",
+      "category": "Umbi",
+      "price": 15000,
+      "quantity": 200,
+      "image": "/assets/images/kentang.jpg",
+      "description": "Kentang besar berkualitas tinggi, cocok untuk berbagai masakan.",
+      "farmerId": "F2"
+    },
+    {
+      "id": "6",
+      "name": "Tomat",
+      "category": "Buah",
+      "price": 10000,
+      "quantity": 150,
+      "image": "/assets/images/tomat.jpg",
+      "description": "Tomat merah segar, ideal untuk salad dan saus.",
+      "farmerId": "F3"
+    },
+    {
+      "id": "7",
+      "name": "Bawang Merah",
+      "category": "Umbi",
+      "price": 30000,
+      "quantity": 50,
+      "image": "/assets/images/bawang-merah.jpg",
+      "description": "Bawang merah segar langsung dari petani.",
+      "farmerId": "F1"
+    },
+    {
+      "id": "8",
+      "name": "Bawang Putih",
+      "category": "Umbi",
+      "price": 35000,
+      "quantity": 60,
+      "image": "/assets/images/bawang-putih.jpg",
+      "description": "Bawang putih berkualitas tinggi, wajib untuk dapur.",
+      "farmerId": "F2"
+    },
+    {
+      "id": "9",
+      "name": "Cabai Merah",
+      "category": "Buah",
+      "price": 40000,
+      "quantity": 80,
+      "image": "/assets/images/cabai-merah.jpg",
+      "description": "Cabai merah segar dengan rasa pedas yang mantap.",
+      "farmerId": "F3"
+    },
+    {
+      "id": "10",
+      "name": "Cabai Rawit",
+      "category": "Buah",
+      "price": 45000,
+      "quantity": 70,
+      "image": "/assets/images/cabai-rawit.jpg",
+      "description": "Cabai rawit segar, kecil tapi pedas maksimal.",
+      "farmerId": "F1"
+    },
+    {
+      "id": "11",
+      "name": "Terong Ungu",
+      "category": "Buah",
+      "price": 8000,
+      "quantity": 100,
+      "image": "/assets/images/terong-ungu.jpg",
+      "description": "Terong ungu segar, cocok untuk berbagai masakan.",
+      "farmerId": "F2"
+    },
+    {
+      "id": "12",
+      "name": "Labu Siam",
+      "category": "Buah",
+      "price": 5000,
+      "quantity": 120,
+      "image": "/assets/images/labu-siam.jpg",
+      "description": "Labu siam segar untuk sayur lodeh atau tumisan.",
+      "farmerId": "F3"
+    },
+    {
+      "id": "13",
+      "name": "Jagung Manis",
+      "category": "Buah",
+      "price": 7000,
+      "quantity": 150,
+      "image": "/assets/images/jagung-manis.jpg",
+      "description": "Jagung manis berkualitas, siap untuk direbus atau dibakar.",
+      "farmerId": "F1"
+    },
+    {
+      "id": "14",
+      "name": "Timun",
+      "category": "Buah",
+      "price": 6000,
+      "quantity": 140,
+      "image": "/assets/images/timun.jpg",
+      "description": "Timun segar untuk lalapan atau acar.",
+      "farmerId": "F2"
+    },
+    {
+      "id": "15",
+      "name": "Kacang Panjang",
+      "category": "Buah",
+      "price": 5000,
+      "quantity": 130,
+      "image": "/assets/images/kacang-panjang.jpg",
+      "description": "Kacang panjang segar langsung dari kebun.",
+      "farmerId": "F3"
+    },
+    {
+      "id": "16",
+      "name": "Bayam Merah",
+      "category": "Daun",
+      "price": 8500,
+      "quantity": 90,
+      "image": "/assets/images/bayam-merah.jpg",
+      "description": "Bayam merah yang kaya nutrisi dan lezat.",
+      "farmerId": "F1"
+    },
+    {
+      "id": "17",
+      "name": "Selada Hijau",
+      "category": "Daun",
+      "price": 10000,
+      "quantity": 80,
+      "image": "/assets/images/selada-hijau.jpg",
+      "description": "Selada hijau segar, sempurna untuk salad.",
+      "farmerId": "F2"
+    },
+    {
+      "id": "18",
+      "name": "Pak Choi",
+      "category": "Daun",
+      "price": 12000,
+      "quantity": 70,
+      "image": "/assets/images/pak-choi.jpg",
+      "description": "Pak choi segar untuk tumisan atau sup.",
+      "farmerId": "F3"
+    },
+    {
+      "id": "19",
+      "name": "Kol",
+      "category": "Daun",
+      "price": 9000,
+      "quantity": 100,
+      "image": "/assets/images/kol.jpg",
+      "description": "Kol segar untuk lalapan atau campuran masakan.",
+      "farmerId": "F1"
+    },
+    {
+      "id": "20",
+      "name": "Brokoli",
+      "category": "Daun",
+      "price": 15000,
+      "quantity": 60,
+      "image": "/assets/images/brokoli.jpg",
+      "description": "Brokoli hijau segar dan sehat.",
+      "farmerId": "F2"
+    }
+  ]
+  
