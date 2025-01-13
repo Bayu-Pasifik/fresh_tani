@@ -1,22 +1,13 @@
+import React from "react";
+import ProductList from "./components/productList"; // Sesuaikan dengan path
 
-import "./App.css";
-import uploadToFirestore from "./hooks/use-upload-dummy";
-
-function App() {
-  const handleUpload = () => {
-    uploadToFirestore();
-  };
+const App = () => {
   return (
-    <div className="App">
-      <h1>FreshTani Admin Panel</h1>
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={handleUpload}
-      >
-        Upload Data Produk
-      </button>
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-6">Toko Sayur FreshTani</h1>
+      <ProductList />
     </div>
   );
-}
+};
 
 export default App;
