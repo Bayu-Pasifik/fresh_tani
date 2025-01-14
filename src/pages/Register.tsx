@@ -1,5 +1,3 @@
-// RegisterPage.tsx
-import { useState } from 'react'
 import { RegisterForm } from "../components/registerForm"; // Buat komponen form register
 
 export default function RegisterPage() {

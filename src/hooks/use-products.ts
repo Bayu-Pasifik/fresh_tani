@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { collection, getDocs } from "firebase/firestore";
 import db from "../config/firebase-config"; // Sesuaikan path
 
+// Interface untuk produk
 interface Product {
   id: string;
   name: string;
@@ -13,34 +14,25 @@ interface Product {
   farmerId: string;
 }
 
+// Fungsi untuk mengambil data produk dari Firestore
+const fetchProducts = async (): Promise<Product[]> => {
+  const productCollection = collection(db, "products");
+  const productSnapshot = await getDocs(productCollection);
+  const productList = productSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as Product[];
+
+  return productList;
+};
+
+// Hook untuk mendapatkan produk dengan `useQuery`
 const useProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const productCollection = collection(db, "products");
-        const productSnapshot = await getDocs(productCollection);
-        const productList = productSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as Product[];
-
-        setProducts(productList);
-      } catch (error) {
-        setError("Gagal mengambil produk dari Firestore.");
-        console.error("Gagal mengambil produk:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  return { products, loading, error };
+  return useQuery<Product[], Error>({
+    queryKey: ["products"], // Key unik untuk query
+    queryFn: fetchProducts, // Fungsi pengambil data
+    staleTime: 1000 * 60 * 5, // Data dianggap segar selama 5 menit
+  });
 };
 
 export default useProducts;
