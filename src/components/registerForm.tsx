@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -6,9 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { useRegisterMutation } from "@/hooks/use-auth";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 export function RegisterForm() {
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -28,14 +29,22 @@ export function RegisterForm() {
       return;
     }
 
-    register({ email, password });
+    // Panggil register dengan fullName
+    register({ email, password, fullName });
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2">
         <Label htmlFor="name">Full Name</Label>
-        <Input id="name" placeholder="John Doe" required type="text" />
+        <Input
+          id="name"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          placeholder="John Doe"
+          required
+          type="text"
+        />
       </div>
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>

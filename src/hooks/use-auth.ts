@@ -1,12 +1,26 @@
 import { useMutation } from "@tanstack/react-query";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 // Fungsi untuk registrasi pengguna
-const registerUser = async ({ email, password }: { email: string; password: string }) => {
+const registerUser = async ({
+  email,
+  password,
+  fullName,
+}: {
+  email: string;
+  password: string;
+  fullName: string;
+}) => {
   const auth = getAuth();
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+  // Update displayName
+  await updateProfile(userCredential.user, {
+    displayName: fullName,
+  });
+
   return userCredential.user; // Mengembalikan user setelah registrasi
 };
 
@@ -27,11 +41,9 @@ export const useRegisterMutation = () => {
       Swal.fire({
         icon: "success",
         title: "Registration Successful",
-        text: "Your account has been created successfully!",
-        confirmButtonText: "OK",
-      }).then(() => {
-        navigate("/login"); // Mengarahkan ke halaman login setelah klik OK
+        text: "Your account has been created!",
       });
+      navigate("/login"); // Mengarahkan ke halaman utama setelah registrasi berhasil
     },
     onError: (error: any) => {
       Swal.fire({
