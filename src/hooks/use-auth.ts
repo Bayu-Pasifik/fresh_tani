@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -10,13 +10,20 @@ const registerUser = async ({ email, password }: { email: string; password: stri
   return userCredential.user; // Mengembalikan user setelah registrasi
 };
 
+// Fungsi untuk login pengguna
+const loginUser = async ({ email, password }: { email: string; password: string }) => {
+  const auth = getAuth();
+  const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  return userCredential.user; // Mengembalikan user setelah login
+};
+
 // Hook untuk registrasi
 export const useRegisterMutation = () => {
   const navigate = useNavigate();
 
   return useMutation({
     mutationFn: registerUser,
-    onSuccess: (user) => {
+    onSuccess: () => {
       Swal.fire({
         icon: "success",
         title: "Registration Successful",
@@ -31,6 +38,25 @@ export const useRegisterMutation = () => {
         icon: "error",
         title: "Registration Failed",
         text: error.message || "An error occurred during registration.",
+      });
+    },
+  });
+};
+
+// Hook untuk login
+export const useLoginMutation = () => {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: loginUser,
+    onSuccess: () => {
+      navigate("/"); // Mengarahkan ke halaman utama setelah login berhasil
+    },
+    onError: (error: any) => {
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: error.message || "An error occurred during login.",
       });
     },
   });
