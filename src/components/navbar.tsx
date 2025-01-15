@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { requestRole } from "@/service/roleService";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -54,35 +55,48 @@ const Navbar: React.FC = () => {
 
   const handleRequestRole = () => {
     Swal.fire({
-      title: "Request a New Role",
+      title: "Request Role Baru",
       input: "select",
       inputOptions: {
         buyer: "Buyer",
         farmer: "Farmer",
       },
-      inputPlaceholder: "Select a role",
+      inputPlaceholder: "Pilih Role",
       showCancelButton: true,
       confirmButtonText: "Request",
       cancelButtonText: "Cancel",
       preConfirm: (selectedRole) => {
         if (!selectedRole) {
-          Swal.showValidationMessage("You must select a role.");
+          Swal.showValidationMessage("Anda harus memilih role.");
           return false;
         }
         return selectedRole;
       },
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         const selectedRole = result.value;
 
-        // Logika untuk menyimpan permintaan role ke database
-        Swal.fire({
-          icon: "success",
-          title: "Request Sent",
-          text: `Your request for the "${selectedRole}" role has been sent to the admin.`,
-        });
+        try {
+          // Panggil fungsi `requestRole`
+          await requestRole({
+            userId: user.uid,
+            email: user.email,
+            currentRoles: roles,
+            requestedRole: selectedRole,
+          });
 
-        console.log(`Requested role: ${selectedRole}`);
+          Swal.fire({
+            icon: "success",
+            title: "Permintaan sudah dikirim",
+            text: `Permintaan role ${selectedRole} telah dikirim ke admin.`,
+          });
+        } catch (error: any) {
+          Swal.fire(
+            "Error",
+            error.message || "Gagal meminta role, silahkan coba lagi.",
+            "error"
+          );
+        }
       }
     });
   };
@@ -92,7 +106,7 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto p-4 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
           <Leaf size={24} className="animate-bounce" />
-          <h1 className="text-3xl font-bold">Toko Sayur FreshTani</h1>
+          <h1 className="text-3xl font-bold">Toko Sayur Fresh Tani</h1>
         </Link>
 
         <div className="flex items-center space-x-4">
