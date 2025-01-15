@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
 // Fungsi untuk registrasi pengguna
 const registerUser = async ({ email, password, fullName, roles }: { 
@@ -77,4 +77,18 @@ export const useLoginMutation = () => {
       });
     },
   });
+};
+
+
+
+export const getUserData = async (uid: string) => {
+  const db = getFirestore();
+  const userRef = doc(db, "users", uid);
+  const userSnap = await getDoc(userRef);
+
+  if (userSnap.exists()) {
+    return userSnap.data(); // Data pengguna termasuk role
+  } else {
+    throw new Error("User data not found");
+  }
 };
