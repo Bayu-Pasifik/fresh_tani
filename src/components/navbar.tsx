@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Leaf, ShoppingCart, User } from "lucide-react";
+import { Leaf, ShoppingCart, User, Bell } from "lucide-react";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { getUserData } from "@/hooks/use-auth"; // Fungsi untuk mengambil data pengguna
 import { Button } from "./ui/button";
@@ -12,12 +12,14 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { requestRole } from "@/service/roleService";
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [roles, setRoles] = useState<string[]>([]);
   const [user, setUser] = useState<any>(null);
+  const [pendingRequests, setPendingRequests] = useState<number>(0);
 
   useEffect(() => {
     const auth = getAuth();
@@ -29,6 +31,11 @@ const Navbar: React.FC = () => {
         try {
           const userData = await getUserData(currentUser.uid);
           setRoles(userData.roles || []); // Ambil role dari Firestore
+
+          // Jika user adalah admin, ambil jumlah permintaan role yang belum diproses
+          if (userData.roles?.includes("admin")) {
+            await fetchPendingRequests();
+          }
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -101,6 +108,17 @@ const Navbar: React.FC = () => {
     });
   };
 
+  // Fungsi untuk mengambil jumlah permintaan role yang masih pending
+  const fetchPendingRequests = async () => {
+    const db = getFirestore();
+    const q = query(
+      collection(db, "roleRequests"),
+      where("status", "==", "pending")
+    );
+    const querySnapshot = await getDocs(q);
+    setPendingRequests(querySnapshot.size); // Menyimpan jumlah permintaan pending
+  };
+
   return (
     <header className="bg-green-600 text-white shadow-lg">
       <div className="container mx-auto p-4 flex justify-between items-center">
@@ -114,34 +132,58 @@ const Navbar: React.FC = () => {
             <ShoppingCart size={20} />
             <span>Cart</span>
           </Button>
+
+          {/* User section */}
           {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="relative h-18 w-18 rounded-full"
-                >
-                  <User className="h-18 w-18" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem className="font-medium">
-                  {user.displayName}
-                  <span className="ml-2 text-xs text-gray-400">
-                    ({roles.join(", ")})
-                  </span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleRequestRole}>
-                  Request Role
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={handleLogout}
-                  disabled={isLoggingOut}
-                >
-                  {isLoggingOut ? "Logging out..." : "Logout"}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="flex items-center space-x-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-18 w-18 rounded-full"
+                  >
+                    <User className="h-18 w-18" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem className="font-medium">
+                    {user.displayName}
+                    <span className="ml-2 text-xs text-gray-400">
+                      ({roles.join(", ")})
+                    </span>
+                  </DropdownMenuItem>
+
+                  {/* Cek apakah user admin */}
+                  {!roles.includes("admin") && (
+                    <DropdownMenuItem onClick={handleRequestRole}>
+                      Request Role
+                    </DropdownMenuItem>
+                  )}
+
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    disabled={isLoggingOut}
+                  >
+                    {isLoggingOut ? "Logging out..." : "Logout"}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Lonceng notifikasi untuk admin */}
+              {roles.includes("admin") && pendingRequests > 0 && (
+                <Link to="/manage-requests">
+                  <Button
+                    variant="ghost"
+                    className="relative p-2 text-white bg-transparent"
+                  >
+                    <Bell size={24} />
+                    <span className="absolute top-0 right-0 text-xs text-white bg-red-500 rounded-full w-5 h-5 flex items-center justify-center">
+                      {pendingRequests}
+                    </span>
+                  </Button>
+                </Link>
+              )}
+            </div>
           ) : (
             <Link to="/login">
               <Button variant="ghost">Login</Button>
