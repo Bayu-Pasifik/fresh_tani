@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
 import { useRegisterMutation } from "@/hooks/use-auth";
 import Swal from "sweetalert2";
@@ -13,6 +14,7 @@ export function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("buyer"); // Default role
 
   const { mutate: register, isPending, error } = useRegisterMutation();
 
@@ -29,13 +31,23 @@ export function RegisterForm() {
       return;
     }
 
-    // Panggil register dengan fullName
-    register({ email, password, fullName });
+    // Validasi role
+    if (!role) {
+      Swal.fire({
+        icon: "warning",
+        title: "Select Role",
+        text: "Please select a role before proceeding.",
+      });
+      return;
+    }
+
+    // Panggil register dengan data tambahan (role)
+    register({ email, password, fullName, roles: [role] }); // Roles dikirim sebagai array
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-2">
+    <form onSubmit={handleSubmit} className="space-y-6 max-h-screen overflow-hidden">
+      <div className="space-y-2 overflow-hidden">
         <Label htmlFor="name">Full Name</Label>
         <Input
           id="name"
@@ -76,6 +88,18 @@ export function RegisterForm() {
           required
           type="password"
         />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="role">Select Role</Label>
+        <Select onValueChange={(value) => setRole(value)} value={role}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select your role" />
+          </SelectTrigger>
+          <SelectContent className="max-h-none overflow-visible"> {/* Tambahkan kelas ini */}
+            <SelectItem value="buyer">Buyer</SelectItem>
+            <SelectItem value="farmer">Farmer</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <Button

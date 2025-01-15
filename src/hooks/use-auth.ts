@@ -2,27 +2,32 @@ import { useMutation } from "@tanstack/react-query";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 // Fungsi untuk registrasi pengguna
-const registerUser = async ({
-  email,
-  password,
-  fullName,
-}: {
-  email: string;
-  password: string;
-  fullName: string;
+const registerUser = async ({ email, password, fullName, roles }: { 
+  email: string; 
+  password: string; 
+  fullName: string; 
+  roles: string[]; // Array role
 }) => {
   const auth = getAuth();
-  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  const db = getFirestore();
 
-  // Update displayName
-  await updateProfile(userCredential.user, {
-    displayName: fullName,
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  await updateProfile(userCredential.user, { displayName: fullName });
+
+  const userRef = doc(db, "users", userCredential.user.uid);
+  await setDoc(userRef, {
+    fullName,
+    email,
+    roles, // Menyimpan array role
+    createdAt: new Date(),
   });
 
-  return userCredential.user; // Mengembalikan user setelah registrasi
+  return userCredential.user;
 };
+
 
 // Fungsi untuk login pengguna
 const loginUser = async ({ email, password }: { email: string; password: string }) => {

@@ -24,11 +24,12 @@ export default function RegisterPage() {
 
     return () => clearInterval(interval); // Bersihkan interval saat komponen unmount
   }, [images.length]);
+
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-green-50">
+    <div className="flex flex-col md:flex-row bg-green-50 overflow-hidden">
       {/* Left side - Image and Text */}
       <div
-        className={`relative md:w-1/2 h-[calc(100vh)] flex-shrink-0 overflow-hidden transition-opacity duration-500 ease-in-out ${
+        className={`relative md:w-1/2 h-[calc(105vh)] flex-shrink-0 overflow-hidden transition-opacity duration-500 ease-in-out ${
           isFading ? "opacity-0" : "opacity-100"
         }`}
       >
@@ -46,7 +47,6 @@ export default function RegisterPage() {
           </p>
         </div>
       </div>
-
       {/* Right side - Register Form */}
       <div className="md:w-1/2 flex items-center justify-center p-4 md:p-8">
         <div className="w-full max-w-sm md:max-w-md">
