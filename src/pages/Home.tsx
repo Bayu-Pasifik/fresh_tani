@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import ProductList from "@/components/productList";
 
@@ -12,11 +13,7 @@ const HomePage = () => {
         <ProductList />
       </main>
 
-      <footer className="bg-green-800 text-white mt-12">
-        <div className="container mx-auto p-4 text-center">
-          <p>&copy; 2023 Toko Sayur FreshTani. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

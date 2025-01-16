@@ -14,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, XCircle } from "lucide-react";
 import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 
 export const AdminManageRequests: React.FC = () => {
   const { requests, handleApprove, handleReject } = ManageRequests();
@@ -98,6 +99,7 @@ export const AdminManageRequests: React.FC = () => {
           </Table>
         </CardContent>
       </Card>
+      <Footer />
     </div>
   );
 };
