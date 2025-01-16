@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Leaf, ShoppingCart, User, Bell } from "lucide-react";
 import { Button } from "./ui/button";
 import {
@@ -19,6 +19,20 @@ const Navbar: React.FC = () => {
     handleLogout,
     handleRequestRole,
   } = useNavbar();
+
+  const navigate = useNavigate();
+
+  const handleDashboardNavigation = () => {
+    if (roles.includes("admin")) {
+      navigate("/admin-dashboard");
+    } else if (roles.includes("farmer")) {
+      navigate("/farmer-dashboard");
+    } else if (roles.includes("buyer")) {
+      navigate("/buyer-dashboard");
+    } else {
+      navigate("/"); // Default route if no roles are assigned
+    }
+  };
 
   return (
     <header className="bg-green-600 text-white shadow-lg">
@@ -43,7 +57,10 @@ const Navbar: React.FC = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuItem className="font-medium">
+                  <DropdownMenuItem
+                    className="font-medium"
+                    onClick={handleDashboardNavigation}
+                  >
                     {user.displayName}
                     <span className="ml-2 text-xs text-gray-400">
                       ({roles.join(", ")})
@@ -63,7 +80,7 @@ const Navbar: React.FC = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {roles.includes("admin") && pendingRequests > 0 && (
+              {roles.includes("admin") && (
                 <Link to="/manage-requests">
                   <Button variant="ghost" className="relative p-2 text-white bg-transparent">
                     <Bell size={24} />
