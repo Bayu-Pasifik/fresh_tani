@@ -19,86 +19,83 @@ import Footer from "@/components/footer";
 export const AdminManageRequests: React.FC = () => {
   const { requests, handleApprove, handleReject } = ManageRequests();
 
-  if (!requests || requests.length === 0) {
-    return (
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Manage Role Requests</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-center text-muted-foreground">
-            No pending requests at the moment.
-          </p>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <Card className="w-full p-4">
-        <CardHeader>
-          <CardTitle>Manage Role Requests</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>User</TableHead>
-                <TableHead>Requested Role</TableHead>
-                <TableHead>Current Roles</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {requests.map((request) => (
-                <TableRow key={request.id}>
-                  <TableCell className="font-medium">{request.email}</TableCell>
-                  <TableCell>{request.requestedRole}</TableCell>
-                  <TableCell>{request.currentRoles.join(", ")}</TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={
-                        request.status === "pending"
-                          ? "outline"
-                          : request.status === "approved"
-                          ? "secondary"
-                          : "destructive"
-                      }
-                    >
-                      {request.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    {request.status === "pending" && (
-                      <div className="flex space-x-2">
-                        <Button
-                          size="sm"
-                          onClick={() => handleApprove(request)}
-                          className="bg-green-600 hover:bg-green-700"
-                        >
-                          <CheckCircle className="mr-2 h-4 w-4" />
-                          Approve
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => handleReject(request)}
-                        >
-                          <XCircle className="mr-2 h-4 w-4" />
-                          Reject
-                        </Button>
-                      </div>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <div className="flex-grow">
+        {(!requests || requests.length === 0) ? (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-muted-foreground">
+              No pending requests at the moment.
+            </p>
+          </div>
+        ) : (
+          <div>
+            <Card className="w-full p-4">
+              <CardHeader>
+                <CardTitle>Manage Role Requests</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>User</TableHead>
+                      <TableHead>Requested Role</TableHead>
+                      <TableHead>Current Roles</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {requests.map((request) => (
+                      <TableRow key={request.id}>
+                        <TableCell className="font-medium">{request.email}</TableCell>
+                        <TableCell>{request.requestedRole}</TableCell>
+                        <TableCell>{request.currentRoles.join(", ")}</TableCell>
+                        <TableCell>
+                          <Badge
+                            variant={
+                              request.status === "pending"
+                                ? "outline"
+                                : request.status === "approved"
+                                ? "secondary"
+                                : "destructive"
+                            }
+                          >
+                            {request.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          {request.status === "pending" && (
+                            <div className="flex space-x-2">
+                              <Button
+                                size="sm"
+                                onClick={() => handleApprove(request)}
+                                className="bg-green-600 hover:bg-green-700"
+                              >
+                                <CheckCircle className="mr-2 h-4 w-4" />
+                                Approve
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={() => handleReject(request)}
+                              >
+                                <XCircle className="mr-2 h-4 w-4" />
+                                Reject
+                              </Button>
+                            </div>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+      </div>
       <Footer />
     </div>
   );
