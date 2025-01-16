@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getUserData } from "@/hooks/use-auth";
 
 interface ProtectedRouteProps {
@@ -8,26 +8,31 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const [isAdmin, setIsAdmin] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const auth = getAuth();
-    const currentUser = auth.currentUser;
 
-    const checkAdmin = async () => {
+    // Pantau perubahan status autentikasi
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         try {
           const userData = await getUserData(currentUser.uid);
-          setIsAdmin(userData.roles.includes("admin")); // Periksa apakah role "admin" ada
+
+          // Periksa apakah user memiliki role "admin"
+          setIsAdmin(userData.roles.includes("admin"));
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
+      } else {
+        setIsAdmin(false);
       }
-      setLoading(false);
-    };
 
-    checkAdmin();
+      setLoading(false); // Selesai memeriksa status autentikasi
+    });
+
+    return () => unsubscribe(); // Bersihkan listener saat komponen di-unmount
   }, []);
 
   if (loading) {
