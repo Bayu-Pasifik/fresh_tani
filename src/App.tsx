@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Home from "./pages/Home";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
+import { AdminManageRequests } from "./pages/ManageRole";
 
 // Inisialisasi QueryClient
 const queryClient = new QueryClient();
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/manage-roles" element={<AdminManageRequests />} />
         </Routes>
       </Router>
     </QueryClientProvider>
