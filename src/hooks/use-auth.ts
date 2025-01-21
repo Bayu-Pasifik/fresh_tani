@@ -1,8 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged } from "firebase/auth";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 // Fungsi untuk registrasi pengguna
 const registerUser = async ({ email, password, fullName, roles }: { 
@@ -91,4 +92,32 @@ export const getUserData = async (uid: string) => {
   } else {
     throw new Error("User data not found");
   }
+};
+
+export const useAuth = () => {
+  const [userRoles, setUserRoles] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        try {
+          const userData = await getUserData(currentUser.uid);
+          setUserRoles(userData.roles || []);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      } else {
+        setUserRoles([]);
+      }
+
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  return { userRoles, loading };
 };
