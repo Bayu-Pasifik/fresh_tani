@@ -4,7 +4,11 @@ import Home from "./pages/Home";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
 import { AdminManageRequests } from "./pages/ManageRole";
-import ProtectedRoute from "./components/protectedRoute"; 
+import ProtectedRoute from "./components/protectedRoute";
+import Dashboard from "./pages/Dashboard";
+import FarmerDashboard from "./pages/FarmerDashboard";
+import BuyerDashboard from "./pages/BuyerDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 
 // Inisialisasi QueryClient
 const queryClient = new QueryClient();
@@ -27,6 +31,39 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["farmer", "buyer", "admin"]}>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          >
+            <Route
+              path="dashboard-farmer"
+              element={
+                <ProtectedRoute allowedRoles={["farmer"]}>
+                  <FarmerDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="dashboard-buyer"
+              element={
+                <ProtectedRoute allowedRoles={["buyer"]}>
+                  <BuyerDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="dashboard-admin"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
         </Routes>
       </Router>
     </QueryClientProvider>
