@@ -20,9 +20,9 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route
-            path="/manage-roles"
+            path="/manage-requests"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["admin"]}>
                 <AdminManageRequests />
               </ProtectedRoute>
             }
