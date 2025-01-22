@@ -24,11 +24,11 @@ const Navbar: React.FC = () => {
 
   const handleDashboardNavigation = () => {
     if (roles.includes("admin")) {
-      navigate("/admin-dashboard");
+      navigate("/dashboard");
     } else if (roles.includes("farmer")) {
-      navigate("/farmer-dashboard");
+      navigate("/dashboard");
     } else if (roles.includes("buyer")) {
-      navigate("/buyer-dashboard");
+      navigate("/dashboard");
     } else {
       navigate("/"); // Default route if no roles are assigned
     }
