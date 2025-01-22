@@ -15,11 +15,10 @@ const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    // Bungkus aplikasi dengan QueryClientProvider
     <QueryClientProvider client={queryClient}>
       <Router>
         <Routes>
-          {/* Route untuk semua halaman */}
+          {/* Rute umum */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -31,6 +30,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          {/* Rute Dashboard */}
           <Route
             path="/dashboard"
             element={
@@ -40,7 +40,7 @@ const App = () => {
             }
           >
             <Route
-              path="dashboard-farmer"
+              path="farmer"
               element={
                 <ProtectedRoute allowedRoles={["farmer"]}>
                   <FarmerDashboard />
@@ -48,7 +48,7 @@ const App = () => {
               }
             />
             <Route
-              path="dashboard-buyer"
+              path="buyer"
               element={
                 <ProtectedRoute allowedRoles={["buyer"]}>
                   <BuyerDashboard />
@@ -56,7 +56,7 @@ const App = () => {
               }
             />
             <Route
-              path="dashboard-admin"
+              path="admin"
               element={
                 <ProtectedRoute allowedRoles={["admin"]}>
                   <AdminDashboard />

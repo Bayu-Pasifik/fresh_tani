@@ -1,7 +1,7 @@
 const FarmerDashboard = () => {
     return (
-        <div>
-            <h1>Dashboard Farmer</h1>
+        <div className="bg-red-500">
+            <h1>Ini adalah dashboard Farmer</h1>
         </div>
     );
 };

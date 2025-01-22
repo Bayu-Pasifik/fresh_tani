@@ -1,8 +1,8 @@
 "use client";
 
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/use-auth";
-import { Tractor, ShoppingCart, Shield, ChevronDown } from "lucide-react";
+import { Tractor, ShoppingCart, Shield, ChevronDown, Menu } from "lucide-react";
 
 import {
   Sidebar,
@@ -14,6 +14,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
   Collapsible,
@@ -27,7 +29,7 @@ const menus = [
     title: "Farmer",
     icon: Tractor,
     submenus: [
-      { name: "Dashboard Farmer", path: "/dashboard-farmer" },
+      { name: "Dashboard Farmer", path: "farmer" },
       { name: "Manage Crops", path: "/manage-crops" },
     ],
   },
@@ -36,7 +38,7 @@ const menus = [
     title: "Buyer",
     icon: ShoppingCart,
     submenus: [
-      { name: "Dashboard Buyer", path: "/dashboard-buyer" },
+      { name: "Dashboard Buyer", path: "/buyer" },
       { name: "Shopping Cart", path: "/cart" },
     ],
   },
@@ -45,7 +47,7 @@ const menus = [
     title: "Admin",
     icon: Shield,
     submenus: [
-      { name: "Dashboard Admin", path: "/dashboard-admin" },
+      { name: "Dashboard Admin", path: "/admin" },
       { name: "Manage Users", path: "/manage-users" },
       { name: "View Reports", path: "/view-reports" },
     ],
@@ -54,13 +56,26 @@ const menus = [
 
 export default function ImprovedSidebar() {
   const { userRoles } = useAuth();
+  const navigate = useNavigate();
 
   // Filter menus based on user roles
   const filteredMenus = menus.filter((menu) => userRoles.includes(menu.role));
 
   return (
+    <SidebarProvider>
+      {/* Sidebar Trigger untuk layar kecil */}
+      <SidebarTrigger>
+        {/* Pastikan hanya ada satu elemen di dalam SidebarTrigger */}
+        <button
+          className="p-2 text-green-600 md:hidden"
+          aria-label="Open Sidebar"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+      </SidebarTrigger>
 
-      <Sidebar className="border-r" variant="inset">
+      {/* Sidebar */}
+      <Sidebar className="border-r">
         <SidebarHeader className="border-b px-6 py-4">
           <h1 className="text-2xl font-bold text-green-600">
             Toko Sayur Dashboard
@@ -86,13 +101,11 @@ export default function ImprovedSidebar() {
                     <SidebarMenu>
                       {menu.submenus.map((submenu) => (
                         <SidebarMenuItem key={submenu.path}>
-                          <SidebarMenuButton asChild>
-                            <Link
-                              to={submenu.path}
-                              className="block py-2 px-4 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md transition-colors duration-200"
-                            >
-                              {submenu.name}
-                            </Link>
+                          <SidebarMenuButton
+                            onClick={() => navigate(`/dashboard/${submenu.path}`)}
+                            className="block py-2 px-4 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md transition-colors duration-200"
+                          >
+                            {submenu.name}
                           </SidebarMenuButton>
                         </SidebarMenuItem>
                       ))}
@@ -104,5 +117,6 @@ export default function ImprovedSidebar() {
           ))}
         </SidebarContent>
       </Sidebar>
+    </SidebarProvider>
   );
 }
