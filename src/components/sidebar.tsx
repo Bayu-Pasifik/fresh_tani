@@ -2,7 +2,7 @@
 
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/use-auth";
-import { Tractor, ShoppingCart, Shield, ChevronDown, Menu } from "lucide-react";
+import { Tractor, ShoppingCart, Shield, ChevronDown } from "lucide-react";
 
 import {
   Sidebar,
@@ -64,15 +64,7 @@ export default function ImprovedSidebar() {
   return (
     <SidebarProvider>
       {/* Sidebar Trigger untuk layar kecil */}
-      <SidebarTrigger>
-        {/* Pastikan hanya ada satu elemen di dalam SidebarTrigger */}
-        <button
-          className="p-2 text-green-600 md:hidden"
-          aria-label="Open Sidebar"
-        >
-          <Menu className="w-6 h-6" />
-        </button>
-      </SidebarTrigger>
+      <SidebarTrigger  className="md:hidden absolute top-1/2 left-2 -translate-y-1/2 p-2"/>
 
       {/* Sidebar */}
       <Sidebar className="border-r">
@@ -102,7 +94,9 @@ export default function ImprovedSidebar() {
                       {menu.submenus.map((submenu) => (
                         <SidebarMenuItem key={submenu.path}>
                           <SidebarMenuButton
-                            onClick={() => navigate(`/dashboard/${submenu.path}`)}
+                            onClick={() =>
+                              navigate(`/dashboard/${submenu.path}`)
+                            }
                             className="block py-2 px-4 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md transition-colors duration-200"
                           >
                             {submenu.name}
