@@ -14,8 +14,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarProvider,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
   Collapsible,
@@ -62,55 +60,45 @@ export default function ImprovedSidebar() {
   const filteredMenus = menus.filter((menu) => userRoles.includes(menu.role));
 
   return (
-    <SidebarProvider>
-      {/* Sidebar Trigger untuk layar kecil */}
-      <SidebarTrigger  className="md:hidden absolute top-1/2 left-2 -translate-y-1/2 p-2"/>
-
-      {/* Sidebar */}
-      <Sidebar className="border-r">
-        <SidebarHeader className="border-b px-6 py-4">
-          <h1 className="text-2xl font-bold text-green-600">
-            Toko Sayur Dashboard
-          </h1>
-        </SidebarHeader>
-        <SidebarContent>
-          {filteredMenus.map((menu) => (
-            <SidebarGroup key={menu.role}>
-              <Collapsible>
-                <CollapsibleTrigger asChild>
-                  <SidebarGroupLabel className="flex items-center justify-between py-2 hover:bg-green-50 rounded-md transition-colors duration-200">
-                    <div className="flex items-center space-x-3">
-                      <menu.icon className="w-5 h-5 text-green-600" />
-                      <span className="text-lg font-semibold">
-                        {menu.title}
-                      </span>
-                    </div>
-                    <ChevronDown className="w-4 h-4 text-green-600" />
-                  </SidebarGroupLabel>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <SidebarGroupContent>
-                    <SidebarMenu>
-                      {menu.submenus.map((submenu) => (
-                        <SidebarMenuItem key={submenu.path}>
-                          <SidebarMenuButton
-                            onClick={() =>
-                              navigate(`/dashboard/${submenu.path}`)
-                            }
-                            className="block py-2 px-4 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md transition-colors duration-200"
-                          >
-                            {submenu.name}
-                          </SidebarMenuButton>
-                        </SidebarMenuItem>
-                      ))}
-                    </SidebarMenu>
-                  </SidebarGroupContent>
-                </CollapsibleContent>
-              </Collapsible>
-            </SidebarGroup>
-          ))}
-        </SidebarContent>
-      </Sidebar>
-    </SidebarProvider>
+    <Sidebar className="border-r">
+      <SidebarHeader className="border-b px-6 py-4">
+        <h1 className="text-2xl font-bold text-green-600">
+          Toko Sayur Dashboard
+        </h1>
+      </SidebarHeader>
+      <SidebarContent>
+        {filteredMenus.map((menu) => (
+          <SidebarGroup key={menu.role}>
+            <Collapsible>
+              <CollapsibleTrigger asChild>
+                <SidebarGroupLabel className="flex items-center justify-between py-2 hover:bg-green-50 rounded-md transition-colors duration-200">
+                  <div className="flex items-center space-x-3">
+                    <menu.icon className="w-5 h-5 text-green-600" />
+                    <span className="text-lg font-semibold">{menu.title}</span>
+                  </div>
+                  <ChevronDown className="w-4 h-4 text-green-600" />
+                </SidebarGroupLabel>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {menu.submenus.map((submenu) => (
+                      <SidebarMenuItem key={submenu.path}>
+                        <SidebarMenuButton
+                          onClick={() => navigate(`/dashboard/${submenu.path}`)}
+                          className="block py-2 px-4 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md transition-colors duration-200"
+                        >
+                          {submenu.name}
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </CollapsibleContent>
+            </Collapsible>
+          </SidebarGroup>
+        ))}
+      </SidebarContent>
+    </Sidebar>
   );
 }
