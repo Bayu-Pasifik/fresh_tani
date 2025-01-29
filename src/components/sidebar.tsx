@@ -28,7 +28,7 @@ const menus = [
     icon: Tractor,
     submenus: [
       { name: "Dashboard Farmer", path: "farmer" },
-      { name: "Manage Crops", path: "/manage-crops" },
+      { name: "Manage Crops", path: "manage-crops" },
     ],
   },
   {

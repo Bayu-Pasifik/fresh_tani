@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import FarmerDashboard from "./pages/FarmerDashboard";
 import BuyerDashboard from "./pages/BuyerDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import ManageCropsPage from "./pages/ManageCrop";
 
 // Inisialisasi QueryClient
 const queryClient = new QueryClient();
@@ -60,6 +61,14 @@ const App = () => {
               element={
                 <ProtectedRoute allowedRoles={["admin"]}>
                   <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="manage-crops"
+              element={
+                <ProtectedRoute allowedRoles={["farmer"]}>
+                  <ManageCropsPage />
                 </ProtectedRoute>
               }
             />
